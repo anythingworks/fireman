@@ -8,8 +8,9 @@
 custom_solver_bias = 0.0
 extents = Vector2( 31.9925, 31.8402 )
 
-[node name="Astroid" type="KinematicBody2D" index="0"]
+[node name="Astroid" type="KinematicBody2D"]
 
+position = Vector2( 616.46, 349.328 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1

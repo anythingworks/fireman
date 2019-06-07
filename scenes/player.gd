@@ -5,8 +5,8 @@ var speed = 0
 var direction = Vector2(1.0,0)
 
 func rotation_amount(l_stick_axis):
-	return 3.14 / 50 * (speed + 10)  / 88 * l_stick_axis
-
+	return 3.14 / 50 * (speed + 20)  / 222 * l_stick_axis
+	
 func stick_is_left(stick):
 	return stick < -.08
 func stick_is_right(stick):
@@ -55,39 +55,24 @@ func _physics_process(delta):
 
 
 #	if Input.is_action_pressed("ui_right"):
-#		direction = direction.rotated(rotation_amount(l_stick_axis))
+#		direction = direction.rotated(rotation_amount())
 #		$Sprite.flip_h = false
-#		if l_stick_axis > .7:
-#			$Sprite.play("turn")
-#		elif l_stick_axis > .4:
-#			pass
-#		else:
-#			$Sprite.play("small_turn")
+#		$Sprite.play("turn")
+#
 #
 #	elif Input.is_action_pressed("ui_left"):
 #		direction = direction.rotated(rotation_amount(l_stick_axis))
 #		$Sprite.flip_h = true
-#		if l_stick_axis < -.7:
-##			print('full left')
-#			$Sprite.play("turn")
-#		elif l_stick_axis < -.4 && l_stick_axis >= -.7:
-##			print('slight left')
-#			$Sprite.play("small_turn")
-#		else:
-#			print('none')
-#			$Sprite.play("constant")
 #
-#	else:
-#		$Sprite.play("constant")
 #
 	if Input.is_action_pressed("ui_up"):
-		if speed < 80:
-			speed += 1
+		if speed < 300:
+			speed += 2
 
 	elif Input.is_action_pressed("ui_down"):
 		if speed > 0:
-			speed -= 1
-			
+			speed -= 2
+
 	velocity = direction
 	velocity.x = velocity.x * speed
 	velocity.y = velocity.y * speed

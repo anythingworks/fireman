@@ -1,13 +1,19 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
 
-[node name="Astroid_spawner" type="Area2D" index="0"]
+[ext_resource path="res://scenes/Astroid_spawner.gd" type="Script" id=1]
 
-input_pickable = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-audio_bus_override = false
-audio_bus_name = "Master"
+[node name="Astroid_spawner" type="Node"]
+
+script = ExtResource( 1 )
+
+[node name="Timer" type="Timer" parent="." index="0"]
+
+process_mode = 1
+wait_time = 3.0
+one_shot = false
+autostart = true
+_sections_unfolded = [ "Pause" ]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 
