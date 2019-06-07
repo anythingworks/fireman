@@ -1,0 +1,29 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/sprite_0.png-5b3c9aa5b821d60de1d7fb7aca926b6f.stex"
+
+[deps]
+
+source_file="res://sprites/Fireball_player/Fire character slight turn/Fire ball turn/sprite_0.png"
+dest_files=[ "res://.import/sprite_0.png-5b3c9aa5b821d60de1d7fb7aca926b6f.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=1
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Game blip.wav-0a43abfa27aff1e0588ca00de70462ea.sample"
+
+[deps]
+
+source_file="res://music_or_sounds/game_sounds/Game blip.wav"
+dest_files=[ "res://.import/Game blip.wav-0a43abfa27aff1e0588ca00de70462ea.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
