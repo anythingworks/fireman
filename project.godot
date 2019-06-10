@@ -12,7 +12,12 @@ config_version=3
 
 config/name="Fire Man"
 run/main_scene="res://scenes/Main Menu.tscn"
+boot_splash/image="res://dbo9vrb-ff4341b3-7444-420a-9d90-de1d8fd39a9b.png"
 config/icon="res://icon.png"
+
+[autoload]
+
+Temporary_Data="*res://scenes/Temporary_Data.tscn"
 
 [display]
 

@@ -1,32 +1,86 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://scenes/Main Menu.gd" type="Script" id=1]
-[ext_resource path="res://sprites/Fonts/hover.tres" type="DynamicFont" id=2]
-[ext_resource path="res://sprites/Fonts/Main Menu.tres" type="DynamicFont" id=3]
-[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_0.png" type="Texture" id=4]
-[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_1.png" type="Texture" id=5]
-[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_3.png" type="Texture" id=6]
-[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_4.png" type="Texture" id=7]
-[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_5.png" type="Texture" id=8]
-[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_6.png" type="Texture" id=9]
-[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_7.png" type="Texture" id=10]
-[ext_resource path="res://scenes/Fireball.gd" type="Script" id=11]
-[ext_resource path="res://scenes/Astroid_spawner.tscn" type="PackedScene" id=12]
+[ext_resource path="res://sprites/Fonts/hover.tres" type="DynamicFont" id=1]
+[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_0.png" type="Texture" id=2]
+[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_1.png" type="Texture" id=3]
+[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_3.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_4.png" type="Texture" id=5]
+[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_5.png" type="Texture" id=6]
+[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_6.png" type="Texture" id=7]
+[ext_resource path="res://sprites/Fireball_player/fireball idle/sprite_7.png" type="Texture" id=8]
+[ext_resource path="res://sprites/Fonts/Main Menu.tres" type="DynamicFont" id=9]
+[ext_resource path="res://scenes/Mouse_Curser.tscn" type="PackedScene" id=10]
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="GDScript" id=1]
 
-content_margin_left = 4.0
-content_margin_right = -1.0
-content_margin_top = -1.0
-content_margin_bottom = -1.0
-_sections_unfolded = [ "Content Margin" ]
+script/source = "extends Node
 
-[sub_resource type="StyleBoxEmpty" id=2]
+var timer = null
+var blip_Delay = .3
+var can_blip = true
 
-content_margin_left = -1.0
-content_margin_right = -1.0
-content_margin_top = -1.0
-content_margin_bottom = -1.0
+
+func _ready():
+	timer = Timer.new()
+	timer.set_wait_time(blip_Delay)
+	timer.connect(\"timeout\", self, \"on_timeout_complete\")
+	add_child(timer)
+	
+	
+func on_timeout_complete():
+	can_blip = true
+
+func _on_Start_pressed():
+	var tree = get_tree()
+	tree.change_scene(\"res://scenes/Stage1.tscn\")
+
+func _on_Quit_pressed():
+	get_tree().quit()
+
+
+func _on_Settings_pressed():
+	var tree = get_tree()
+	tree.change_scene(\"res://scenes/Settings.tscn\")
+
+
+
+func _on_Start_mouse_entered():
+	if can_blip:
+		var player = AudioStreamPlayer.new()
+		self.add_child(player)
+		player.stream = load(\"res://music_or_sounds/game_sounds/Game blip.wav\")
+		player.play()
+		can_blip = false
+		timer.start()
+
+func _on_Settings_mouse_entered():
+	if can_blip:
+		var player = AudioStreamPlayer.new()
+		self.add_child(player)
+		player.stream = load(\"res://music_or_sounds/game_sounds/Game blip.wav\")
+		player.play()
+		can_blip = false
+		timer.start()
+
+
+func _on_Quit_mouse_entered():
+	if can_blip:
+		var player = AudioStreamPlayer.new()
+		self.add_child(player)
+		player.stream = load(\"res://music_or_sounds/game_sounds/Game blip.wav\")
+		player.play()
+		can_blip = false
+		timer.start()
+"
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 12.0
+} ]
 
 [sub_resource type="StyleBoxEmpty" id=3]
 
@@ -58,14 +112,20 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="StyleBoxEmpty" id=7]
 
-animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
-"loop": true,
-"name": "default",
-"speed": 12.0
-} ]
+content_margin_left = 4.0
+content_margin_right = -1.0
+content_margin_top = -1.0
+content_margin_bottom = -1.0
+_sections_unfolded = [ "Content Margin" ]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+content_margin_left = -1.0
+content_margin_right = -1.0
+content_margin_top = -1.0
+content_margin_bottom = -1.0
 
 [node name="TitleScreen" type="Control"]
 
@@ -73,18 +133,21 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -2.0
-margin_bottom = -2.0
+margin_left = 7.0
+margin_top = -3.0
+margin_right = 7.0
+margin_bottom = -3.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 1 )
+script = SubResource( 1 )
 
 [node name="Title" type="Label" parent="." index="0"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -99,7 +162,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0, 0.609375, 1 )
 custom_constants/shadow_offset_x = 3
 text = "IKARUS"
@@ -108,47 +171,28 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts" ]
 
-[node name="Start" type="Button" parent="." index="1"]
+[node name="Fireball" type="AnimatedSprite" parent="Title" index="0"]
+
+position = Vector2( 263.993, -11.152 )
+scale = Vector2( 7, 7 )
+frames = SubResource( 2 )
+animation = "default"
+frame = 1
+playing = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="Buttons" type="Node" parent="." index="1"]
+
+[node name="Settings" type="Button" parent="Buttons" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 500.0
-margin_top = 352.0
-margin_right = 707.0
-margin_bottom = 420.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_styles/hover = SubResource( 1 )
-custom_styles/focus = SubResource( 2 )
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color = Color( 0.988235, 0.0941176, 0.996078, 1 )
-custom_colors/font_color_hover = Color( 0.988235, 0.701961, 1, 1 )
-toggle_mode = true
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Start"
-flat = true
-align = 1
-_sections_unfolded = [ "Mouse", "Size Flags", "Theme", "custom_colors", "custom_constants", "custom_styles" ]
-
-[node name="Settings" type="Button" parent="." index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 453.0
-margin_top = 423.0
-margin_right = 751.0
-margin_bottom = 491.0
+margin_left = 496.0
+margin_top = 419.0
+margin_right = 706.0
+margin_bottom = 487.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -158,7 +202,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 custom_styles/hover = SubResource( 3 )
 custom_styles/focus = SubResource( 4 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.988235, 0.0941176, 0.996078, 1 )
 custom_colors/font_color_hover = Color( 0.988235, 0.701961, 1, 1 )
 custom_constants/hseparation = 0
@@ -171,16 +215,16 @@ flat = true
 align = 1
 _sections_unfolded = [ "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
-[node name="Quit" type="Button" parent="." index="3"]
+[node name="Quit" type="Button" parent="Buttons" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 530.0
-margin_top = 497.0
-margin_right = 663.0
-margin_bottom = 565.0
+margin_left = 540.0
+margin_top = 489.0
+margin_right = 650.0
+margin_bottom = 557.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2
@@ -190,8 +234,7 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 custom_styles/hover = SubResource( 5 )
 custom_styles/focus = SubResource( 6 )
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color_disabled = Color( 0.882812, 0.0655212, 0.0655212, 1 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.989072, 0.0972748, 0.996094, 1 )
 custom_colors/font_color_hover = Color( 0.988235, 0.701961, 1, 1 )
 toggle_mode = false
@@ -205,29 +248,49 @@ clip_text = true
 align = 1
 _sections_unfolded = [ "Grow Direction", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
-[node name="Fireball" type="AnimatedSprite" parent="." index="4"]
+[node name="Start" type="Button" parent="Buttons" index="2"]
 
-position = Vector2( 769.993, 153.848 )
-scale = Vector2( 7, 7 )
-frames = SubResource( 7 )
-animation = "default"
-frame = 5
-playing = true
-script = ExtResource( 11 )
-_sections_unfolded = [ "Transform" ]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 527.0
+margin_top = 351.0
+margin_right = 674.0
+margin_bottom = 419.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_styles/hover = SubResource( 7 )
+custom_styles/focus = SubResource( 8 )
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.988235, 0.0941176, 0.996078, 1 )
+custom_colors/font_color_hover = Color( 0.988235, 0.701961, 1, 1 )
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Start"
+flat = true
+align = 1
+_sections_unfolded = [ "Mouse", "Size Flags", "Theme", "custom_colors", "custom_constants", "custom_styles" ]
 
-[node name="Astroid_spawner" parent="." index="5" instance=ExtResource( 12 )]
+[node name="Mouse_Curser" parent="." index="2" instance=ExtResource( 10 )]
 
-[connection signal="mouse_entered" from="Start" to="." method="_on_Start_mouse_entered"]
+[connection signal="mouse_entered" from="Buttons/Settings" to="." method="_on_Settings_mouse_entered"]
 
-[connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="Buttons/Settings" to="." method="_on_Settings_pressed"]
 
-[connection signal="mouse_entered" from="Settings" to="." method="_on_Settings_mouse_entered"]
+[connection signal="mouse_entered" from="Buttons/Quit" to="." method="_on_Quit_mouse_entered"]
 
-[connection signal="pressed" from="Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="Buttons/Quit" to="." method="_on_Quit_pressed"]
 
-[connection signal="mouse_entered" from="Quit" to="." method="_on_Quit_mouse_entered"]
+[connection signal="mouse_entered" from="Buttons/Start" to="." method="_on_Start_mouse_entered"]
 
-[connection signal="pressed" from="Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="Buttons/Start" to="." method="_on_Start_pressed"]
 
 

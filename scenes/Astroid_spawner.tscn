@@ -1,10 +1,34 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scenes/Astroid_spawner.gd" type="Script" id=1]
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Node
+
+
+
+
+
+func _ready():
+	# Called when the node is added to the scene for the first time.
+	# Initialization here
+	pass
+
+#func _process(delta):
+#	# Called every frame. Delta is time since last frame.
+#	# Update game logic here.
+#	pass
+
+func _on_Timer_timeout():
+	var astroid_resource = load('res://scenes/Astroid.tscn')
+	var astroid = astroid_resource.instance()
+	var spawn_astroid = get_node('.').add_child(astroid)
+	astroid.set_position(Vector2(1200, randi() % 720))
+	print('Timer_workin')
+"
 
 [node name="Astroid_spawner" type="Node"]
 
-script = ExtResource( 1 )
+script = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="." index="0"]
 
